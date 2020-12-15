@@ -14,12 +14,17 @@ const userSchema = new mongoose.Schema({
       message: 'Please enter a valid email',
     },
   },
+  name: {
+    type: String,
+    minlength: 2,
+    maxlength: 30,
+    required: true,
+  },
   password: {
     type: String,
     required: true,
     select: false,
   },
-
 });
 
 userSchema.statics.findUserByCredentials = function (email, password) {
