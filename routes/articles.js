@@ -34,7 +34,7 @@ router.post('/articles',
 
 // deletes the stored article by _id
 // DELETE /articles/articleId
-router.delete('/articles/articleId',
+router.delete('/articles/:articleId',
   celebrate({
     headers: Joi.object().keys({
       Authorization: Joi.string().alphanum(),
