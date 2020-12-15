@@ -2,7 +2,7 @@
   "name": "news-explorer-api",
   "version": "1.0.0",
   "description": "Backend for News Explorer App",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -21,5 +21,11 @@
   "bugs": {
     "url": "https://github.com/ze-e/news-explorer-api/issues"
   },
-  "homepage": "https://github.com/ze-e/news-explorer-api#readme"
+  "homepage": "https://github.com/ze-e/news-explorer-api#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.17.1",
+    "mongoose": "^5.11.8",
+    "validator": "^13.5.2"
+  }
 }
