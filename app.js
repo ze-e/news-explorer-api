@@ -1,9 +1,7 @@
 // routes
 const express = require('express');
 const mongoose = require('mongoose');
-
 const app = express();
-//const cors = require('cors');
 
 // middleware
 const { errors } = require('celebrate');
@@ -21,8 +19,6 @@ mongoose.connect(DATABASE, {
   useFindAndModify: false,
   useUnifiedTopology: true,
 });
-
-//app.use(cors());
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
