@@ -13,10 +13,6 @@ const articleSchema = new mongoose.Schema({
     type: String,
     required: 'text is required',
   },
-  date: {
-    type: Date,
-    required: 'date is required',
-  },
   source: {
     type: String,
     required: 'source is required',
@@ -48,11 +44,17 @@ const articleSchema = new mongoose.Schema({
     ref: 'user',
     select: false,
   },
+  date: {
+    type: Date,
+    required: 'date is required',
+  },
 });
 
 articleSchema.statics.doesUserOwn = function (articleId, ownerId) {
-  return this.findById(articleId)
-    .then((article) => (article.owner._id === ownerId ? article : Promise.reject(new Error('User does not own article'))))
+  return this.findById(articleId).select('+owner')
+    .then((article) => {
+      return article.owner._id == ownerId ? article : Promise.reject(new Error('User does not own article'))
+    })
     .catch(() => Promise.reject(new Error('User does not own article')));
 };
 
