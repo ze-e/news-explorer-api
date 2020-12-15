@@ -1,4 +1,5 @@
 const express = require('express');
+
 const router = express.Router();
 
 // controller
@@ -10,8 +11,8 @@ const {
 // middleware
 const auth = require('../middleware/auth');
 
-//returns information about the logged-in user (email and name)
-//GET /users/me
+// returns information about the logged-in user (email and name)
+// GET /users/me
 router.get('/users/me',
   celebrate({
     headers: Joi.object().keys({
@@ -20,9 +21,9 @@ router.get('/users/me',
   }),
   auth, getUser);
 
-//creates a new user
-//POST /signup
-//PUBLIC
+// creates a new user
+// POST /signup
+// PUBLIC
 router.post('/signup',
   celebrate({
     body: Joi.object().keys({
@@ -33,10 +34,10 @@ router.post('/signup',
   }),
   createUser);
 
-//logs in user
-//POST /signin
-//PUBLIC
-  router.post('/signin',
+// logs in user
+// POST /signin
+// PUBLIC
+router.post('/signin',
   celebrate({
     body: Joi.object().keys({
       email: Joi.string().email().required(),

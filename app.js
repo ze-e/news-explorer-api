@@ -1,6 +1,7 @@
 // routes
 const express = require('express');
 const mongoose = require('mongoose');
+
 const app = express();
 
 // middleware
@@ -49,7 +50,7 @@ app.use((err, req, res, next) => {
 app.use(errorLogger);
 
 // server
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
   console.log(`server running on port ${PORT}`);

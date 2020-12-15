@@ -2,7 +2,7 @@ const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
 
 const auth = require('../middleware/auth');
-const { getArticles, createArticle, deleteArticle} = require('../controllers/articles');
+const { getArticles, createArticle, deleteArticle } = require('../controllers/articles');
 
 // returns all articles saved by the user
 // GET /articles

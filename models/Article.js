@@ -22,22 +22,22 @@ const articleSchema = new mongoose.Schema({
     required: 'link is required',
     validate: {
       validator(str) {
-          const regex = /^http:\/\/|https:\/\//;
-          return regex.test(str);
+        const regex = /^http:\/\/|https:\/\//;
+        return regex.test(str);
       },
       message: 'please enter a valid url',
-    }
+    },
   },
   image: {
     type: String,
     required: 'image is required',
     validate: {
       validator(str) {
-          const regex = /^http:\/\/|https:\/\//;
-          return regex.test(str);
+        const regex = /^http:\/\/|https:\/\//;
+        return regex.test(str);
       },
       message: 'please enter a valid url',
-    }
+    },
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
@@ -52,9 +52,7 @@ const articleSchema = new mongoose.Schema({
 
 articleSchema.statics.doesUserOwn = function (articleId, ownerId) {
   return this.findById(articleId).select('+owner')
-    .then((article) => {
-      return article.owner._id == ownerId ? article : Promise.reject(new Error('User does not own article'))
-    })
+    .then((article) => (article.owner._id === ownerId ? article : Promise.reject(new Error('User does not own article'))))
     .catch(() => Promise.reject(new Error('User does not own article')));
 };
 
