@@ -24,7 +24,12 @@ module.exports.createUser = (req, res, next) => {
         name: req.body.name,
       })
         .then((user) => {
-          res.send(user);
+          //for some reason, select:false does not work when creating users
+          //temporary fix until I can figure out this bug
+          const userData = {};
+          userData.email = user.email;
+          userData.name = user.name;
+          res.send(userData);
         })
         .catch((err) => {
           if (err.name === 'MongoError' && err.code === 11000) {
