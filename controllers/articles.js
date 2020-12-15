@@ -32,15 +32,15 @@ module.exports.createArticle = (req, res, next) => {
 };
 
 module.exports.deleteArticle = (req, res, next) => {
-  Article.doesUserOwnCard(req.params.ArticleId, req.user._id)
-    .then((article) => {
-      Article.findByIdAndRemove(article._id)
-        .then((deletedArticle) => {
-          res.status(200).send({ deletedArticle });
-        })
-        .catch(() => next(new NotFoundError('Article unavailable')));
-    })
-    .catch(() => next(new PermissionError('User does not own article')));
+  Article.doesUserOwn(req.params.articleId, req.user._id)
+  .then((article) => {
+    Article.findByIdAndRemove(article._id)
+      .then((deletedArticle) => {
+        res.status(200).send({ deletedArticle });
+      })
+      .catch(() => next(new NotFoundError('Article unavailable')));
+  })
+  .catch(() => next(new PermissionError('User does not own article')));
 };
 
 

@@ -50,4 +50,10 @@ const articleSchema = new mongoose.Schema({
   },
 });
 
+articleSchema.statics.doesUserOwn = function (articleId, ownerId) {
+  return this.findById(articleId)
+    .then((article) => (article.owner._id === ownerId ? article : Promise.reject(new Error('User does not own article'))))
+    .catch(() => Promise.reject(new Error('User does not own article')));
+};
+
 module.exports = mongoose.model('article', articleSchema);
