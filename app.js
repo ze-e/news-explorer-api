@@ -8,7 +8,7 @@ const app = express();
 // middleware
 const { errors } = require('celebrate');
 const bodyParser = require('body-parser');
-//const { requestLogger, errorLogger } = require('./middleware/logger');
+const { requestLogger, errorLogger } = require('./middleware/logger');
 
 // config
 require('dotenv').config({ path: '../' });
@@ -26,7 +26,7 @@ mongoose.connect(DATABASE, {
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-//app.use(requestLogger);
+app.use(requestLogger);
 
 // user routes
 app.use('/api/', require('./routes/users'));
@@ -50,7 +50,7 @@ app.use((err, req, res, next) => {
 });
 
 // errorlogger
-//app.use(errorLogger);
+app.use(errorLogger);
 
 // server
 const PORT = process.env.PORT || 5000;
