@@ -1,6 +1,6 @@
 {
   "name": "news-explorer-api",
-  "version": "12.x",
+  "version": "12.14.0",
   "description": "Backend for News Explorer App",
   "main": "app.js",
   "scripts": {
