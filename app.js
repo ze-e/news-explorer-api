@@ -10,7 +10,6 @@ const bodyParser = require('body-parser');
 const { requestLogger, errorLogger } = require('./middleware/logger');
 
 // config
-require('dotenv').config({ path: '../' });
 const { DATABASE } = require('./config/db_config');
 
 // connect to database
@@ -25,7 +24,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(requestLogger);
 
-// user routes
+// routes
 app.use('/api/', require('./routes/index'));
 
 // celebrate errors

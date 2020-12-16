@@ -1,2 +1,9 @@
-module.exports.articlesRoute = require('./articles');
-module.exports.usersRoute = require('./users');
+const router = require('express').Router();
+
+// user routes
+router.use('/', require('./users'));
+
+// card routes
+router.use('/', require('./articles'));
+
+module.exports = router;
