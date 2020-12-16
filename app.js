@@ -11,6 +11,7 @@ const { requestLogger, errorLogger } = require('./middleware/logger');
 
 // config
 const { DATABASE } = require('./config/db_config');
+const errorHandler = require('./middleware/errorHandler');
 
 // connect to database
 mongoose.connect(DATABASE, {
@@ -30,17 +31,7 @@ app.use('/api/', require('./routes/index'));
 // celebrate errors
 app.use(errors());
 // normal errors
-app.use((err, req, res, next) => {
-  const { statusCode = 500, message } = err;
-  res.status(statusCode).send(
-    {
-      message: statusCode === 500
-        ? `An error occurred on the server ${err}`
-        : message,
-    },
-  );
-  next();
-});
+app.use(errorHandler);
 
 // errorlogger
 app.use(errorLogger);
