@@ -23,20 +23,20 @@ module.exports.createUser = (req, res, next) => {
         password: hash,
         name: req.body.name,
       })
-        .then((user) => {
-          //for some reason, select:false does not work when creating users
-          //temporary fix until I can figure out this bug
-          const userData = {};
-          userData.email = user.email;
-          userData.name = user.name;
-          res.send(userData);
-        })
-        .catch((err) => {
-          if (err.name === 'MongoError' && err.code === 11000) {
-            next(new ConflictError(`User ${err.keyValue.email} already exists`));
-          }
-          next(new Error(`Could not create user: ${err.message}`));
-        });
+      .then((user) => {
+        //for some reason, select:false does not work when creating users
+        //temporary fix until I can figure out this bug
+        const userData = {};
+        userData.email = user.email;
+        userData.name = user.name;
+        res.send(userData);
+      })
+      .catch((err) => {
+        if (err.name === 'MongoError' && err.code === 11000) {
+          next(new ConflictError(`User ${err.keyValue.email} already exists`));
+        }
+        next(new Error(`Could not create user: ${err.message}`));
+      });
     })
     .catch((err) => next(new RequestError(`Could not create user: ${err.message}`)));
 };

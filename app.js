@@ -26,10 +26,7 @@ app.use(bodyParser.json());
 app.use(requestLogger);
 
 // user routes
-app.use('/api/', require('./routes/users'));
-
-// card routes
-app.use('/api/', require('./routes/articles'));
+app.use('/api/', require('./routes/index'));
 
 // celebrate errors
 app.use(errors());
