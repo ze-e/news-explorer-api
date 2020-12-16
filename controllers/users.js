@@ -11,6 +11,9 @@ const ConflictError = require('../config/errors/ConflictError');
 
 module.exports.getUser = (req, res, next) => User.findById(req.user._id)
   .then((user) => {
+    if(!user){
+      throw new NotFoundError('No user found');
+    }
     res.status(200).send(user);
   })
   .catch((err) => next(new NotFoundError(`Could not get user: ${err.message}`)));
