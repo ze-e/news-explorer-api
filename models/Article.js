@@ -52,7 +52,7 @@ const articleSchema = new mongoose.Schema({
 
 articleSchema.statics.doesUserOwn = function (articleId, ownerId) {
   return this.findById(articleId).select('+owner')
-    //eslint is wrong. you cannot use === here
+    // eslint-disable-next-line eqeqeq
     .then((article) => (article.owner._id == ownerId ? article : Promise.reject(new Error('User does not own article'))))
     .catch(() => Promise.reject(new Error('User does not own article')));
 };
