@@ -16,7 +16,7 @@ module.exports.getUser = (req, res, next) => User.findById(req.user._id)
     }
     res.status(200).send(user);
   })
-  .catch((err) => next(new NotFoundError(`Could not get user: ${err.message}`)));
+  .catch(() => next(new NotFoundError(`Could not get user`)));
 
 module.exports.createUser = (req, res, next) => {
   bcrypt.hash(req.body.password, 10)
@@ -38,10 +38,10 @@ module.exports.createUser = (req, res, next) => {
         if (err.name === 'MongoError' && err.code === 11000) {
           next(new ConflictError(`User ${err.keyValue.email} already exists`));
         }
-        next(new Error(`Could not create user: ${err.message}`));
+        next(new Error(`Could not create user`));
       });
     })
-    .catch((err) => next(new RequestError(`Could not create user: ${err.message}`)));
+    .catch(() => next(new RequestError(`Could not create user:`)));
 };
 
 module.exports.loginUser = (req, res, next) => {
@@ -59,5 +59,5 @@ module.exports.loginUser = (req, res, next) => {
       );
       res.status(200).send({ token });
     })
-    .catch((err) => next(new RequestError(`Could not login: ${err.message}`)));
+    .catch(() => next(new RequestError(`Could not login:`)));
 };

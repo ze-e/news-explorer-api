@@ -13,7 +13,7 @@ module.exports.getArticles = (req, res, next) => {
       }
       res.status(200).send(articles);
     })
-    .catch((err) => next(new RequestError(`Could not get articles: ${err.message}`)));
+    .catch(() => next(new RequestError(`Could not get articles`)));
 };
 
 module.exports.createArticle = (req, res, next) => {
@@ -28,7 +28,7 @@ module.exports.createArticle = (req, res, next) => {
     owner: req.user._id,
   })
     .then((article) => res.status(200).send(article))
-    .catch((err) => next(new RequestError(`Could not create article: ${err.message}`)));
+    .catch(() => next(new RequestError(`Could not create article`)));
 };
 
 module.exports.deleteArticle = (req, res, next) => {
