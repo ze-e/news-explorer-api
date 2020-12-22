@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const app = express();
 
 // middleware
-const helmet = require("helmet");
+const helmet = require('helmet');
 const { errors } = require('celebrate');
 const bodyParser = require('body-parser');
 const { requestLogger, errorLogger } = require('./middleware/logger');
@@ -26,11 +26,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(requestLogger);
 
-//middleware for handling security headers
+// middleware for handling security headers
 app.use(helmet());
 
-//limiter middleware
- app.use(require('./middleware/limiter'));
+// limiter middleware
+app.use(require('./middleware/limiter'));
 
 // routes
 app.use('/api/', require('./routes/index'));
