@@ -1,6 +1,7 @@
 const Article = require('../models/Article');
 
 // errors
+const errorMessage = require('../config/errors/errorMessage');
 const NotFoundError = require('../config/errors/NotFoundError');
 const RequestError = require('../config/errors/RequestError');
 const PermissionError = require('../config/errors/PermissionError');
@@ -9,11 +10,11 @@ module.exports.getArticles = (req, res, next) => {
   Article.find({ owner: req.user._id })
     .then((articles) => {
       if (!articles) {
-        throw new NotFoundError('Could not get articles for this user');
+        throw new NotFoundError(errorMessage.ownerNotFound);
       }
       res.status(200).send(articles);
     })
-    .catch((err) => next(new RequestError(`Could not get articles: ${err.message}`)));
+    .catch(() => next(new RequestError(errorMessage.couldNotGet)));
 };
 
 module.exports.createArticle = (req, res, next) => {
@@ -28,7 +29,7 @@ module.exports.createArticle = (req, res, next) => {
     owner: req.user._id,
   })
     .then((article) => res.status(200).send(article))
-    .catch((err) => next(new RequestError(`Could not create article: ${err.message}`)));
+    .catch(() => next(new RequestError(errorMessage.couldNotCreate)));
 };
 
 module.exports.deleteArticle = (req, res, next) => {
@@ -38,7 +39,7 @@ module.exports.deleteArticle = (req, res, next) => {
         .then((deletedArticle) => {
           res.status(200).send({ deletedArticle });
         })
-        .catch(() => next(new NotFoundError('Article unavailable')));
+        .catch(() => next(new NotFoundError(errorMessage.couldNotGet)));
     })
-    .catch(() => next(new PermissionError('User does not own article')));
+    .catch(() => next(new PermissionError(errorMessage.accessDenied)));
 };

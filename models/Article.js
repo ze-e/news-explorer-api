@@ -52,7 +52,8 @@ const articleSchema = new mongoose.Schema({
 
 articleSchema.statics.doesUserOwn = function (articleId, ownerId) {
   return this.findById(articleId).select('+owner')
-    .then((article) => (article.owner._id === ownerId ? article : Promise.reject(new Error('User does not own article'))))
+    // using === here will throw an error
+    .then((article) => (article.owner._id == ownerId ? article : Promise.reject(new Error('User does not own article'))))// eslint-disable-line eqeqeq
     .catch(() => Promise.reject(new Error('User does not own article')));
 };
 

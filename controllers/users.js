@@ -5,18 +5,19 @@ const User = require('../models/User');
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 // errors
+const errorMessage = require('../config/errors/errorMessage');
 const NotFoundError = require('../config/errors/NotFoundError');
 const RequestError = require('../config/errors/RequestError');
 const ConflictError = require('../config/errors/ConflictError');
 
 module.exports.getUser = (req, res, next) => User.findById(req.user._id)
   .then((user) => {
-    if(!user){
-      throw new NotFoundError('No user found');
+    if (!user) {
+      throw new NotFoundError(errorMessage.userNotFound);
     }
     res.status(200).send(user);
   })
-  .catch((err) => next(new NotFoundError(`Could not get user: ${err.message}`)));
+  .catch(() => next(new NotFoundError(errorMessage.couldNotGet)));
 
 module.exports.createUser = (req, res, next) => {
   bcrypt.hash(req.body.password, 10)
@@ -26,22 +27,22 @@ module.exports.createUser = (req, res, next) => {
         password: hash,
         name: req.body.name,
       })
-      .then((user) => {
-        //for some reason, select:false does not work when creating users
-        //temporary fix until I can figure out this bug
-        const userData = {};
-        userData.email = user.email;
-        userData.name = user.name;
-        res.send(userData);
-      })
-      .catch((err) => {
-        if (err.name === 'MongoError' && err.code === 11000) {
-          next(new ConflictError(`User ${err.keyValue.email} already exists`));
-        }
-        next(new Error(`Could not create user: ${err.message}`));
-      });
+        .then((user) => {
+        // for some reason, select:false does not work when creating users
+        // temporary fix until I can figure out this bug
+          const userData = {};
+          userData.email = user.email;
+          userData.name = user.name;
+          res.send(userData);
+        })
+        .catch((err) => {
+          if (err.name === 'MongoError' && err.code === 11000) {
+            next(new ConflictError(`${err.keyValue.email} ${errorMessage.alreadyExists}`));
+          }
+          next(new Error(errorMessage.couldNotCreate));
+        });
     })
-    .catch((err) => next(new RequestError(`Could not create user: ${err.message}`)));
+    .catch(() => next(new RequestError(errorMessage.couldNotCreate)));
 };
 
 module.exports.loginUser = (req, res, next) => {
@@ -49,7 +50,7 @@ module.exports.loginUser = (req, res, next) => {
   return User.findUserByCredentials(email, password)
     .then((user) => {
       if (!user) {
-        throw new NotFoundError('User unavailable');
+        throw new NotFoundError(errorMessage.couldNotGet);
       }
 
       const token = jwt.sign(
@@ -59,5 +60,5 @@ module.exports.loginUser = (req, res, next) => {
       );
       res.status(200).send({ token });
     })
-    .catch((err) => next(new RequestError(`Could not login: ${err.message}`)));
+    .catch(() => next(new RequestError(errorMessage.loginError)));
 };
