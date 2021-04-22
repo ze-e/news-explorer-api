@@ -7,7 +7,7 @@ https://news-explorer-server.herokuapp.com/api/
 Search news headlines from throughout the world using the News API (https://newsapi.org/) and save them to your profile! I created both the frontend and backend of this site using the MERN stack
 
 
-#Skills used
+Skills used
 - ExpressJS
 - NodeJS
 - eslint
