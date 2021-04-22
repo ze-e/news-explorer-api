@@ -8,15 +8,15 @@ Search news headlines from throughout the world using the News API (https://news
 
 
 #Skills used
-**ExpressJS
-**NodeJS
-**eslint
-**JOI / celebrate for validating requests
-**json web token
-**mongoose
-**mongoDB
-**heroku
-**winston
+** ExpressJS
+** NodeJS
+** eslint
+** JOI / celebrate for validating requests
+** json web token
+** mongoose
+** mongoDB
+** heroku
+** winston
 
 Link to Frontend
 *https://github.com/ze-e/news-explorer-frontend
